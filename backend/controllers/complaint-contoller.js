@@ -3,16 +3,12 @@ const complaintModel = require("../Models/complaint");
 const submitComplaint = async (req, res) => {
     try {
         const { typeOfComplaint, description, trainNumber, ticketNumber, uploadedImage } = req.body;
-
-        // Check if all necessary fields are present
         if (!typeOfComplaint || !description || !trainNumber || !ticketNumber) {
             return res.status(400).json({
                 message: "All fields (Type of Complaint, Description, Train Number, Ticket Number) are required",
                 success: false
             });
         }
-
-        // Create new complaint
         const newComplaint = new complaintModel({
             typeOfComplaint,
             description,
@@ -38,7 +34,23 @@ const submitComplaint = async (req, res) => {
         });
     }
 };
+const getComplaints = async (req, res) => {
+    try {
+        const complaints = await complaintModel.find()
+            .sort({ priority: -1 }) // Sort by priority in descending order
+            .exec();
+
+        res.status(200).json({ complaints });
+    } catch (err) {
+        res.status(500).json({
+            message: 'Failed to fetch complaints',
+            error: err.message
+        });
+    }
+};
+
 
 module.exports = {
-    submitComplaint
+    submitComplaint,
+    getComplaints
 };

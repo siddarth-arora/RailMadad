@@ -47,6 +47,7 @@ function Signup() {
                 handleSuccess(message);
                 localStorage.setItem('token', jwtToken);
                 localStorage.setItem('loggedInUser', name);
+                localStorage.setItem('refreshPage', 'true'); // Set flag to trigger refresh
                 setTimeout(() => {
                     navigate('/home');
                 }, 1000);

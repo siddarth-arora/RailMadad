@@ -53,6 +53,14 @@ function Navbar() {
             </li>
 
             {/* Conditionally render based on authentication status */}
+            {isAuthenticated && (
+              <li className="nav-item">
+                <Link to="/result" className="nav-links" onClick={closeMobileMenu}>
+                  Result
+                </Link>
+              </li>
+            )}
+
             {!isAuthenticated ? (
               <>
                 <li className="nav-item">

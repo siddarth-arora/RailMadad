@@ -4,6 +4,14 @@ import { handleError } from '../utils';
 import './Result.css'; // Include the CSS for styling
 
 function Result() {
+    useEffect(() => {
+        // Check if the refresh flag is set
+        if (localStorage.getItem('refreshPage') === 'true') {
+          // Refresh the page
+          localStorage.removeItem('refreshPage'); // Clear the flag
+          window.location.reload();
+        }
+      }, []);
     const [complaints, setComplaints] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

@@ -26,7 +26,7 @@ function Login() {
             return handleError('Email and password are required');
         }
         try {
-            const url = `http://localhost:8080/auth/login`;
+            const url = "http://localhost:8080/auth/login";
             const response = await fetch(url, {
                 method: "PUT", // Changed to POST for login
                 headers: {
@@ -44,7 +44,12 @@ function Login() {
                 login(); // Set authentication state to true
                 localStorage.setItem('refreshPage', 'true'); // Set flag to trigger refresh
                 setTimeout(() => {
-                    navigate('/home');
+                    // Check if the email is for admin and navigate accordingly
+                    if (email === 'admin@gmail.com') {
+                        navigate('/result');
+                    } else {
+                        navigate('/home');
+                    }
                 }, 1000);
             } else if (error) {
                 const details = error?.details[0].message;

@@ -65,29 +65,6 @@ def update_complaint(complaint_id, update_data):
     return result.modified_count
 
 
-# Example usage
-new_complaint = {
-    "typeOfComplaint": "Late Train",
-    "description": "My train was 30 minutes late!",
-    "trainNumber": 1234,
-    "ticketNumber": 5678,
-}
-
-complaint_id = create_complaint(new_complaint)
-print(f"Complaint created with ID: {complaint_id}")
-
-all_complaints = get_complaints()
-print(f"All complaints: {all_complaints}")
-
-specific_complaint = get_complaint_by_id(complaint_id)
-print(f"Complaint by ID: {specific_complaint}")
-
-update_data = {"description": "Updated description"}
-updated_count = update_complaint(complaint_id, update_data)
-print(f"Complaints updated: {updated_count}")
-
-
-
 from llm.py import inference
 for i in get_complaints():
     input = i["description"]

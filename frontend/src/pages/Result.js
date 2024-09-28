@@ -36,13 +36,33 @@ function Result() {
     useEffect(() => {
         fetchComplaints(); // Initial fetch when the component mounts
 
-        // Set interval to refresh complaints every 1 minute (60000 ms)
+        // Set interval to refresh complaints every 10 seconds (10000 ms)
         const intervalId = setInterval(() => {
             fetchComplaints(); // Fetch complaints again
-        }, 300000); // 1 minute interval
+        }, 10000); // 10 seconds interval
 
         return () => clearInterval(intervalId); // Cleanup the interval on component unmount
     }, []);
+
+    // Function to determine cell background color based on priority
+    const getPriorityColor = (priority) => {
+        switch (priority) {
+            case 5: // Urgent and Important
+                return '#FF0000'; // Red
+            case 4: // Important but Not Urgent
+                return '#FFA500'; // Orange
+            case 3: // Urgent but Not Important
+                return '#FFFF00'; // Yellow
+            case 2: // Important, Medium Priority
+                return '#008000'; // Green
+            case 1: // Not Important and Not Urgent
+                return '#0000FF'; // Blue
+            case 0: // Low Priority
+                return '#ADD8E6'; // Light Blue
+            default:
+                return '#FFFFFF'; // White for N/A
+        }
+    };
 
     return (
         <div className="result-container">
@@ -73,7 +93,9 @@ function Result() {
                                 <td>{complaint.trainNumber}</td>
                                 <td>{complaint.ticketNumber}</td>
                                 <td>{new Date(complaint.inquiryDate).toLocaleDateString()}</td>
-                                <td>{complaint.priority !== null ? complaint.priority : 'N/A'}</td>
+                                <td style={{ backgroundColor: getPriorityColor(complaint.priority) }}>
+                                    {complaint.priority !== null ? complaint.priority : 'N/A'}
+                                </td>
                             </tr>
                         ))}
                     </tbody>

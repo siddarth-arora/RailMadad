@@ -39,7 +39,7 @@ function Result() {
         // Set interval to refresh complaints every 1 minute (60000 ms)
         const intervalId = setInterval(() => {
             fetchComplaints(); // Fetch complaints again
-        }, 300000); // 1 minute interval
+        }, 10000); // 1 minute interval
 
         return () => clearInterval(intervalId); // Cleanup the interval on component unmount
     }, []);

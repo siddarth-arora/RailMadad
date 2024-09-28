@@ -69,6 +69,7 @@ function ComplaintForm() {
   };
 
   return (
+    <div className='homepage-container'>
     <div className="form-container">
       <div className="form-image">
         <img src="/railmadad.webp" alt="Rail Madad Helpline" />
@@ -159,6 +160,7 @@ function ComplaintForm() {
       </div>
 
       <ToastContainer />
+    </div>
     </div>
 
   );

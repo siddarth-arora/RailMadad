@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { handleError, handleSuccess } from '../utils'; // Custom functions for notifications
-import 'react-toastify/dist/ReactToastify.css'; // Ensure the toast notifications display properly
+import './ComplaintForm.css'; // Import the CSS for styling
 
 function ComplaintForm() {
   const [complaintInfo, setComplaintInfo] = useState({
@@ -29,13 +29,13 @@ function ComplaintForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const { typeOfComplaint, description, trainNumber, ticketNumber, uploadedImage } = complaintInfo;
-  
+
     if (!typeOfComplaint || !description || !trainNumber || !ticketNumber) {
       return handleError('All fields except the image are required.');
     }
-  
+
     try {
       const formData = new FormData();
       formData.append('typeOfComplaint', typeOfComplaint);
@@ -45,14 +45,14 @@ function ComplaintForm() {
       if (uploadedImage) {
         formData.append('uploadedImage', uploadedImage);
       }
-  
+
       const response = await fetch('http://localhost:8080/auth/complaintform', {
         method: 'PUT',
         body: formData,
       });
-  
+
       const result = await response.json();
-  
+
       if (response.ok) {
         handleSuccess('Complaint submitted successfully!');
         // Refresh the page after successful submission
@@ -69,76 +69,98 @@ function ComplaintForm() {
   };
 
   return (
-    <div className='container'>
-      <h1>Submit a Complaint</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor='typeOfComplaint'>Type of Complaint</label>
-          <select
-            name='typeOfComplaint'
-            onChange={handleChange}
-            value={complaintInfo.typeOfComplaint}
-            required
-          >
-            <option value=''>-- Select Complaint Type --</option>
-            <option value='Late Train'>Late Train</option>
-            <option value='Poor Service'>Poor Service</option>
-            <option value='Cleanliness'>Cleanliness</option>
-            <option value='Safety Issue'>Safety Issue</option>
-            <option value='Other'>Other</option>
-          </select>
-        </div>
+    <div className="form-container">
+      <div className="form-image">
+        <img src="/railmadad.webp" alt="Rail Madad Helpline" />
+      </div>
 
-        <div>
-          <label htmlFor='description'>Description</label>
-          <textarea
-            name='description'
-            onChange={handleChange}
-            placeholder='Enter complaint description...'
-            value={complaintInfo.description}
-            required
-          />
-        </div>
+      <div className="form-content">
+        <h1>Submit Your Rail Complaint</h1>
 
-        <div>
-          <label htmlFor='trainNumber'>Train Number</label>
-          <input
-            type='number'
-            name='trainNumber'
-            onChange={handleChange}
-            placeholder='Enter train number...'
-            value={complaintInfo.trainNumber}
-            required
-          />
-        </div>
+        <p><b>We are here to help you. Please provide details of your issue below and we will get back to you as soon as possible.</b></p>
 
-        <div>
-          <label htmlFor='ticketNumber'>Ticket Number</label>
-          <input
-            type='number'
-            name='ticketNumber'
-            onChange={handleChange}
-            placeholder='Enter ticket number...'
-            value={complaintInfo.ticketNumber}
-            required
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          {/* Grouping complaint type and description */}
+          <div className="form-section">
+            <h2>Complaint Details</h2>
+            <div className="form-group">
+              <label htmlFor="typeOfComplaint">Complaint Type</label>
+              <select
+                name="typeOfComplaint"
+                onChange={handleChange}
+                value={complaintInfo.typeOfComplaint}
+                required
+              >
+                <option value="">-- Select Complaint Type --</option>
+                <option value="Late Train">Late Train</option>
+                <option value="Poor Service">Poor Service</option>
+                <option value="Cleanliness">Cleanliness</option>
+                <option value="Safety Issue">Safety Issue</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
 
-        <div>
-          <label htmlFor='uploadedImage'>Upload Image (Optional)</label>
-          <input
-            type='file'
-            name='uploadedImage'
-            accept='.jpg, .jpeg'
-            onChange={handleFileChange}
-          />
-        </div>
+            <div className="form-group">
+              <label htmlFor="description">Complaint Description</label>
+              <textarea
+                name="description"
+                onChange={handleChange}
+                placeholder="Please describe your issue in detail..."
+                value={complaintInfo.description}
+                required
+              />
+            </div>
+          </div>
 
-        <button type='submit'>Submit</button>
-      </form>
+          {/* Grouping train and ticket information */}
+          <div className="form-section">
+            <h2>Travel Details</h2>
+            <div className="form-group">
+              <label htmlFor="trainNumber">Train Number</label>
+              <input
+                type="number"
+                name="trainNumber"
+                onChange={handleChange}
+                placeholder="Enter your train number..."
+                value={complaintInfo.trainNumber}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="ticketNumber">Ticket Number</label>
+              <input
+                type="number"
+                name="ticketNumber"
+                onChange={handleChange}
+                placeholder="Enter your ticket number..."
+                value={complaintInfo.ticketNumber}
+                required
+              />
+            </div>
+          </div>
+
+          {/* Upload section */}
+          <div className="form-section">
+            <h2>Additional Information (Optional)</h2>
+            <div className="form-group">
+              <label htmlFor="uploadedImage">Upload Image</label>
+              <input
+                type="file"
+                name="uploadedImage"
+                accept=".jpg, .jpeg"
+                onChange={handleFileChange}
+              />
+            </div>
+          </div>
+
+          <button type="submit">Submit Complaint</button>
+        </form>
+      </div>
 
       <ToastContainer />
     </div>
+
   );
 }
 

@@ -77,9 +77,16 @@ function Navbar() {
             ) : (
               <>
                 <li className="nav-item">
-                  <span className="nav-links" onClick={handleLogout}>
+                  <Link 
+                    to="#" // Use "#" to maintain link behavior
+                    className="nav-links" 
+                    onClick={() => { 
+                      handleLogout(); 
+                      closeMobileMenu(); 
+                    }}
+                  >
                     Logout
-                  </span>
+                  </Link>
                 </li>
                 <li className="nav-item">
                   <FaUser className="profile-icon" />

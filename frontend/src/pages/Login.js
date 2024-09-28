@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { handleError, handleSuccess } from '../utils';
-import { useAuth } from '../context/AuthContext'; // Update the path accordingly
+import { useAuth } from '../context/AuthContext';
+import './Login.css'; // Import the separate CSS file for login
 
 function Login() {
     const [loginInfo, setLoginInfo] = useState({
@@ -12,7 +13,7 @@ function Login() {
     });
 
     const navigate = useNavigate();
-    const { login } = useAuth(); // Destructure login function from context
+    const { login } = useAuth();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -28,7 +29,7 @@ function Login() {
         try {
             const url = "http://localhost:8080/auth/login";
             const response = await fetch(url, {
-                method: "PUT", // Changed to POST for login
+                method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -41,15 +42,10 @@ function Login() {
                 handleSuccess(message);
                 localStorage.setItem('token', jwtToken);
                 localStorage.setItem('loggedInUser', name);
-                login(); // Set authentication state to true
-                localStorage.setItem('refreshPage', 'true'); // Set flag to trigger refresh
+                login();
+                localStorage.setItem('refreshPage', 'true');
                 setTimeout(() => {
-                    // Check if the email is for admin and navigate accordingly
-                    if (email === 'admin@gmail.com') {
-                        navigate('/result');
-                    } else {
-                        navigate('/home');
-                    }
+                    navigate('/home');
                 }, 1000);
             } else if (error) {
                 const details = error?.details[0].message;
@@ -63,34 +59,46 @@ function Login() {
     };
 
     return (
-        <div className='container'>
-            <h1>Login</h1>
-            <form onSubmit={handleLogin}>
-                <div>
-                    <label htmlFor='email'>Email</label>
-                    <input
-                        onChange={handleChange}
-                        type='email'
-                        name='email'
-                        placeholder='Enter your email...'
-                        value={loginInfo.email}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor='password'>Password</label>
-                    <input
-                        onChange={handleChange}
-                        type='password'
-                        name='password'
-                        placeholder='Enter your password...'
-                        value={loginInfo.password}
-                        required
-                    />
-                </div>
-                <button type='submit'>Login</button>
-                <span>Doesn't have an account? <Link to="/signup">Signup</Link></span>
-            </form>
+        <div className="login-container">
+            <div className="login-left">
+                <img src="/4-indian-railway-subsidy-option-on-rail-tickets-irctc-booking.avif" alt="Rail Madad" className="login-image" />
+                <h2>Welcome Back to Rail Madad</h2>
+                <p>Access a range of services including:</p>
+                <ul>
+                    <li>Submitting complaints</li>
+                    <li>Tracking issues</li>
+                    <li>Getting real-time updates</li>
+                </ul>
+            </div>
+            <div className="login-right">
+                <h1>Login</h1>
+                <form onSubmit={handleLogin}>
+                    <div className="form-group">
+                        <label htmlFor='email'>Email</label>
+                        <input
+                            onChange={handleChange}
+                            type='email'
+                            name='email'
+                            placeholder='Enter your email...'
+                            value={loginInfo.email}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor='password'>Password</label>
+                        <input
+                            onChange={handleChange}
+                            type='password'
+                            name='password'
+                            placeholder='Enter your password...'
+                            value={loginInfo.password}
+                            required
+                        />
+                    </div>
+                    <button type='submit'>Login</button>
+                    <span>Don't have an account? <Link to="/signup">Signup</Link></span>
+                </form>
+            </div>
             <ToastContainer />
         </div>
     );

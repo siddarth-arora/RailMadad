@@ -4,14 +4,6 @@ import { handleError } from '../utils';
 import './Result.css'; // Include the CSS for styling
 
 function Result() {
-    useEffect(() => {
-        // Check if the refresh flag is set
-        if (localStorage.getItem('refreshPage') === 'true') {
-          // Refresh the page
-          localStorage.removeItem('refreshPage'); // Clear the flag
-          window.location.reload();
-        }
-      }, []);
     const [complaints, setComplaints] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -34,7 +26,6 @@ function Result() {
             const result = await response.json();
             setComplaints(result.complaints || []);
             setLoading(false);
-            // handleSuccess('Complaints fetched successfully');
         } catch (err) {
             setError(err.message);
             setLoading(false);
@@ -43,7 +34,14 @@ function Result() {
     };
 
     useEffect(() => {
-        fetchComplaints();
+        fetchComplaints(); // Initial fetch when the component mounts
+
+        // Set interval to refresh complaints every 1 minute (60000 ms)
+        const intervalId = setInterval(() => {
+            fetchComplaints(); // Fetch complaints again
+        }, 300000); // 1 minute interval
+
+        return () => clearInterval(intervalId); // Cleanup the interval on component unmount
     }, []);
 
     return (

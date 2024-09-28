@@ -65,6 +65,7 @@ function Result() {
     };
 
     return (
+        <div className='homepage-container'>
         <div className="result-container">
             <h1>Complaints</h1>
             {loading ? (
@@ -104,6 +105,7 @@ function Result() {
                 <p>No complaints found</p>
             )}
             <ToastContainer />
+        </div>
         </div>
     );
 }

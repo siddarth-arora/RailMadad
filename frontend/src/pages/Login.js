@@ -59,6 +59,7 @@ function Login() {
     };
 
     return (
+        <div className='homepage-container'>
         <div className="login-container">
             <div className="login-left">
                 <img src="/4-indian-railway-subsidy-option-on-rail-tickets-irctc-booking.avif" alt="Rail Madad" className="login-image" />
@@ -100,6 +101,7 @@ function Login() {
                 </form>
             </div>
             <ToastContainer />
+        </div>
         </div>
     );
 }

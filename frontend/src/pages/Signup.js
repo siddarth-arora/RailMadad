@@ -64,6 +64,7 @@ function Signup() {
     };
 
     return (
+        <div className='homepage-container'>
         <div className='signup-container'>
             <div className="signup-left">
                 <img 
@@ -120,6 +121,7 @@ function Signup() {
                 </form>
             </div>
             <ToastContainer />
+        </div>
         </div>
     );
 }
